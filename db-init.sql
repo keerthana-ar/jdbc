@@ -1,0 +1,32 @@
+CREATE DATABASE IF NOT EXISTS foodorderdb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE foodorderdb;
+
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(100) NOT NULL UNIQUE,
+  password VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS food (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(200) NOT NULL,
+  price DECIMAL(10,2) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS orders (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  food_id INT NOT NULL,
+  quantity INT NOT NULL,
+  order_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (food_id) REFERENCES food(id)
+);
+
+INSERT IGNORE INTO users (username, password) VALUES ('admin','1234');
+
+INSERT IGNORE INTO food (id, name, price) VALUES
+(1,'Burger',120.00),
+(2,'Pizza',250.00),
+(3,'Pasta',180.00),
+(4,'Sandwich',90.00);
